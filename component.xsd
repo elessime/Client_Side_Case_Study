@@ -1,0 +1,565 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://ssp.ptc.com" xmlns="http://ssp.ptc.com" elementFormDefault="qualified">
+  
+  <!-- COMPONENT -->
+  <xsd:element name="component" type="componentType"/>
+  
+  <xsd:complexType name="componentType">
+    <xsd:all maxOccurs="1">
+      <xsd:element name="version" 			type="versionType" 					minOccurs="1"	maxOccurs="1" />
+      <xsd:element name="windchill" 		type="windchillType" 				minOccurs="1"	maxOccurs="1" />
+      <xsd:element name="dependencies" 		type="dependenciesType" 			minOccurs="0"	maxOccurs="1" />
+      <xsd:element name="install" 			type="installType" 					minOccurs="0"	maxOccurs="1" />
+      <xsd:element name="test"		 		type="testType"		 				minOccurs="0"	maxOccurs="1" />
+      <xsd:element name="extension" 		type="extensionType" 				minOccurs="0"	maxOccurs="1" />      
+      <xsd:element name="info" 				type="infoType"		 				minOccurs="0"	maxOccurs="1" />
+      <xsd:element name="configurations"	type="configurationType"		 	minOccurs="0"	maxOccurs="1" />
+      <xsd:element name="publications"		type="publicationsType"			 	minOccurs="0"	maxOccurs="1" />
+      <xsd:element name="conflicts"			type="conflictsType"			 	minOccurs="0"	maxOccurs="1" />
+    </xsd:all>
+    
+    <xsd:attribute name="name" 			type="xsd:string"	default="Sample Project"/>
+    <xsd:attribute name="organisation" 	type="xsd:string"	default="PTC" />
+    <xsd:attribute name="description" 	type="xsd:string"	/>
+    <xsd:attribute name="homepage"		type="xsd:anyURI" 	/>
+    <xsd:attribute name="COTS"			type="xsd:string" 	/>
+  </xsd:complexType>
+  <!-- COMPONENT -->
+  
+  <!-- IVY - INFO -->
+  		<xsd:complexType name="infoType">
+	        <xsd:sequence>
+	      		<xsd:element name="license" 	type="infoLicenseAndAuthorType" minOccurs="0" maxOccurs="unbounded" />
+	            <xsd:element name="ivyauthor" 	type="infoLicenseAndAuthorType" minOccurs="0" maxOccurs="unbounded" />
+	            <xsd:element name="repository"	type="infoRepositoryType" 		minOccurs="0" maxOccurs="unbounded" />	            	
+	      		<xsd:element name="description" type="infoDescriptionType"		minOccurs="0" maxOccurs="1" />
+	        </xsd:sequence>
+	        
+            <xsd:attribute name="organisation" 	type="xsd:string" 	use="required"/>
+            <xsd:attribute name="module" 		type="xsd:string" 	use="required"/>
+            <xsd:attribute name="revision" 		type="xsd:string"	/>
+            <xsd:attribute name="status" 		type="xsd:string"	/>
+            <xsd:attribute name="publication" 	type="xsd:string"	/>
+            <xsd:attribute name="resolver" 		type="xsd:string"	/>
+            <xsd:attribute name="namespace" 	type="xsd:string"	/>
+            <xsd:attribute name="default" 		type="xsd:boolean"	/>
+      </xsd:complexType>
+      
+      			<xsd:complexType name="infoLicenseAndAuthorType">
+					     	<xsd:attribute name="name" 	type="xsd:string" 	use="required"/>
+			            	<xsd:attribute name="url" 	type="xsd:string"	/>
+				</xsd:complexType>
+				
+				<xsd:complexType name="infoRepositoryType">
+					     	<xsd:attribute name="name" 		type="xsd:string" 	use="required"/>
+			            	<xsd:attribute name="url" 		type="xsd:string"	/>
+			            	<xsd:attribute name="pattern" 	type="xsd:string"	/>
+			            	<xsd:attribute name="ivys" 		type="xsd:boolean"	/>
+			            	<xsd:attribute name="artifacts" type="xsd:boolean"	/>
+				</xsd:complexType>
+				
+				<xsd:complexType name="infoDescriptionType" mixed="true">
+				   			<xsd:sequence>
+	            				<xsd:any minOccurs="0" maxOccurs="unbounded" processContents="lax"/>
+			            	</xsd:sequence>
+			            <xsd:attribute name="homepage" type="xsd:string"/>
+	           	</xsd:complexType>
+   <!-- IVY - INFO -->
+   
+   <!-- IVY - CONFIGURATIONS -->
+  		<xsd:complexType name="configurationType">
+	        <xsd:sequence>
+	        	<xsd:choice>
+	        		<xsd:element name="conf" 		type="configurations-conf"		/>
+	        		<xsd:element name="include" 	type="configurationIncludeType"	/>
+	        	</xsd:choice>	      		
+	        </xsd:sequence>
+	        
+	        <xsd:attribute name="defaultconfmapping" type="xsd:string"/>
+      </xsd:complexType>
+      
+      			<xsd:complexType name="configurations-conf">
+				        <xsd:attribute name="name" 			type="xsd:string" 	use="required"/>
+				        <xsd:attribute name="extends" 		type="xsd:string"	/>
+				        <xsd:attribute name="description" 	type="xsd:string"	/>
+				        <xsd:attribute name="deprecated" 	type="xsd:string"	/>
+				        <xsd:attribute name="visibility" 	default="public">
+							<xsd:simpleType>
+								<xsd:restriction base="xsd:string">
+									<xsd:enumeration value="private"/>
+									<xsd:enumeration value="public"/>
+								</xsd:restriction>
+							</xsd:simpleType>
+						</xsd:attribute>
+				</xsd:complexType>
+				
+				<xsd:complexType name="configurationIncludeType">
+					     	<xsd:attribute name="file" type="xsd:string"/>
+							<xsd:attribute name="url"  type="xsd:string"/>
+				</xsd:complexType>      
+   <!-- IVY - CONFIGURATIONS -->
+   
+   <!-- IVY - PUBLICATIONS -->
+  	  <xsd:complexType name="publicationsType">
+	        <xsd:sequence>
+	      		<xsd:element name="artifact" type="publicationsArtifactType" minOccurs="0" maxOccurs="unbounded" />	            	
+	        </xsd:sequence>
+	        
+	        <xsd:attribute name="defaultconfmapping" type="xsd:string"/>
+      </xsd:complexType>
+      
+      			<xsd:complexType name="publicationsArtifactType">
+			        <xsd:sequence>
+			      		<xsd:element name="conf" minOccurs="0" maxOccurs="unbounded">
+			            	<xsd:complexType>
+					            <xsd:attribute name="name" type="xsd:string" use="required"/>
+			            	</xsd:complexType>
+			      		</xsd:element>
+			        </xsd:sequence>
+		            
+		            <xsd:attribute name="name" 	type="xsd:string" 	use="required"	/>
+		            <xsd:attribute name="type" 	type="xsd:string" 	use="required"	/>
+		            <xsd:attribute name="ext" 	type="xsd:string"	/>
+		            <xsd:attribute name="conf" 	type="xsd:string"	/>
+				</xsd:complexType>				     
+   <!-- IVY - PUBLICATIONS -->
+   
+   <!-- IVY - CONFLICTS -->
+  	  <xsd:complexType name="conflictsType">
+	        <xsd:sequence>
+				<xsd:element name="manager" type="conflictsManagerType" maxOccurs="unbounded" />				      		
+			</xsd:sequence>
+      </xsd:complexType>
+            
+      			<xsd:complexType name="conflictsManagerType">
+			        <xsd:attribute name="org"	 	type="xsd:string"/>
+		            <xsd:attribute name="module" 	type="xsd:string"/>
+		            <xsd:attribute name="name" 		type="xsd:string"/>
+		            <xsd:attribute name="rev" 		type="xsd:string"/>
+		            <xsd:attribute name="matcher" 	type="xsd:string"/>
+				</xsd:complexType>				     
+   <!-- IVY - CONFLICTS -->
+  
+  <!-- EXTENSIONS -->
+	  <xsd:complexType name="extensionType">
+		    <xsd:all maxOccurs="1">
+		      <xsd:element name="preDist" 		type="extensionStateType" 	minOccurs="0" />
+		      <xsd:element name="postDist" 		type="extensionStateType" 	minOccurs="0" />
+		      <xsd:element name="postCompile" 	type="extensionStateType" 	minOccurs="0" />	
+	 	      <xsd:element name="preExecute" 	type="extensionStateType" 	minOccurs="0" />
+	 	      <xsd:element name="preDeploy" 	type="extensionStateType" 	minOccurs="0" />
+	 	      <xsd:element name="postDeploy" 	type="extensionStateType" 	minOccurs="0" />
+	 	      <xsd:element name="preConfig" 	type="extensionStateType" 	minOccurs="0" />
+	 	      <xsd:element name="postConfig" 	type="extensionStateType" 	minOccurs="0" />
+	 	      <xsd:element name="postExecute" 	type="extensionStateType" 	minOccurs="0" />
+		    </xsd:all>
+		<xsd:attribute name="option" 				type="xsd:string" />
+	  </xsd:complexType>
+	  
+	  	  <xsd:group name="extensionGroup">
+			  <xsd:choice>
+			      <xsd:element name="java" 		type="javaExtensionType" />
+			      <xsd:element name="ant" 		type="antExtensionType" />
+			  </xsd:choice>
+			</xsd:group>	
+  
+		  <xsd:complexType name="extensionStateType">
+		  	<xsd:sequence>
+				<xsd:group ref="extensionGroup" maxOccurs="unbounded"	/>     
+		    </xsd:sequence>
+			<xsd:attribute name="option" 				type="xsd:string" />		
+		  </xsd:complexType>
+		  
+	  				  <!-- ANT -->		  
+					  <xsd:group name="extensionAntGroup">
+							  <xsd:choice>
+							    	  <xsd:element name="property" 		type="anyExtensionStateType" 	/>	
+							    	  <xsd:element name="reference"		type="anyExtensionStateType" 	/>					  
+							  </xsd:choice>				  
+					  </xsd:group>	
+					    
+					  <xsd:complexType name="antExtensionType">
+					    <xsd:sequence>
+					   			<xsd:group ref="extensionAntGroup" minOccurs="0" maxOccurs="unbounded"/>		   				   					   			   
+					    </xsd:sequence>	    
+					    
+					    <xsd:attribute name="antfile"	 		type="xsd:string" use="required" />
+					    <xsd:attribute name="target" 			type="xsd:string" />
+					    <xsd:attribute name="output" 			type="xsd:string" />
+					    <xsd:attribute name="inheritAll"	 	type="xsd:string" />
+					    <xsd:attribute name="inheritRefs"	 	type="xsd:string" />
+					    <xsd:attribute name="useNativeBasedir" 	type="xsd:string" />
+					    <xsd:attribute name="option" 		type="xsd:string" />
+					    <xsd:attribute name="action" 		type="xsd:string" />
+					  </xsd:complexType>
+					  
+					  <!-- JAVA -->					    
+					  <xsd:complexType name="javaExtensionType">
+					  	<xsd:sequence>
+					  		<xsd:element name="arg"				type="anyExtensionStateType" 	minOccurs="0" 	maxOccurs="unbounded"	/>
+					    	<xsd:choice maxOccurs="2">
+									<xsd:element name="classpath" 		type="anyExtensionStateType" 	minOccurs="0" 	maxOccurs="1"	/>	
+						    		<xsd:element name="jvmarg"			type="anyExtensionStateType" 	minOccurs="0" 	maxOccurs="1"	/>	
+					    	</xsd:choice>
+					    </xsd:sequence>
+					    					      
+					    
+					    <xsd:attribute name="classname"			type="xsd:string" use="required" />
+					    <xsd:attribute name="classpath"			type="xsd:string" />
+					    <xsd:attribute name="classpathref"		type="xsd:string" />
+					    <xsd:attribute name="fork"				type="xsd:string" />
+					    <xsd:attribute name="spawn"				type="xsd:string" />
+					    <xsd:attribute name="jvm"				type="xsd:string" />
+					    <xsd:attribute name="jvmargs"			type="xsd:string" />
+					    <xsd:attribute name="maxmemory"			type="xsd:string" />
+					    <xsd:attribute name="failonerror"		type="xsd:boolean" />
+					    <xsd:attribute name="resultproperty"	type="xsd:string" />
+					    <xsd:attribute name="dir"				type="xsd:string" />
+					    <xsd:attribute name="output"			type="xsd:string" />
+					    <xsd:attribute name="error"				type="xsd:string" />
+					    <xsd:attribute name="logError"			type="xsd:string" />
+					    <xsd:attribute name="append"			type="xsd:string" />
+					    <xsd:attribute name="outputproperty"	type="xsd:string" />
+					    <xsd:attribute name="errorproperty"		type="xsd:string" />
+					    <xsd:attribute name="input"				type="xsd:string" />
+					    <xsd:attribute name="inputstring"		type="xsd:string" />
+					    <xsd:attribute name="newenvironment"	type="xsd:string" />
+					    <xsd:attribute name="timeout"			type="xsd:string" />
+					    <xsd:attribute name="clonevm"			type="xsd:string" />
+					    <xsd:attribute name="option" 			type="xsd:string" />
+						<xsd:attribute name="action" 			type="xsd:string" />
+					  </xsd:complexType>
+  <!-- EXTENSIONS --> 
+  
+  <!-- TEST -->
+	<xsd:group name="testGroup">
+		  <xsd:choice>
+		    	  <xsd:element name="ldif"	type="ldifType" />
+		    	  <xsd:element name="load" 	type="loadType"	/>		    	  						  
+		  </xsd:choice>				  
+ 	</xsd:group>	
+		    
+		  <xsd:complexType name="testType">
+		    <xsd:sequence>
+		   			<xsd:group ref="testGroup" maxOccurs="unbounded"/>		   				   					   			   
+		    </xsd:sequence>	 
+		  </xsd:complexType>
+  <!-- TEST -->
+  
+  <!-- INSTALL -->
+	<xsd:group name="sequenceGroup">
+	  <xsd:choice>
+	    	  <xsd:element name="xmltask" 			type="xmltaskType" 			/>
+		      <xsd:element name="variable" 			type="variableType" 		/>
+		      <xsd:element name="load" 				type="loadType"				/>
+		      <xsd:element name="loadType" 			type="loadTypeType"			/>
+			  <xsd:element name="loadBAC"			type="loadBACType"			/>
+			  <xsd:element name="loadFlex"			type="loadFlexType"			/>
+		      <xsd:element name="copy" 				type="copyType" 			/>
+		      <xsd:element name="xconf"			 	type="xconfType" 			/>
+		      <xsd:element name="ptcPatch" 			type="ptcPatchType" 		/>
+		      <xsd:element name="alterProperties" 	type="alterPropertiesType" 	/>
+		      <xsd:element name="sqlload"			type="sqlloadType" 			/>
+		      <xsd:element name="ldif"				type="ldifType" 			/>
+		      <xsd:element name="packager"			type="packagerType"			/>
+		      <xsd:element name="filterProperty"		type="propertyType"			/>
+	  </xsd:choice>
+	</xsd:group>
+  
+	  <xsd:complexType name="installType">
+	    <xsd:sequence>
+	      	<xsd:group ref="sequenceGroup" minOccurs="0" maxOccurs="unbounded"/>      
+	    </xsd:sequence>
+	  </xsd:complexType>
+	  
+	  	  <!-- PACKAGER -->		  
+		  <xsd:group name="packagerGroup">
+				  <xsd:choice>
+				    	  <xsd:element name="tasks" 		type="packagerTasksType" 	/>						  
+				  </xsd:choice>				  
+		  </xsd:group>	
+		    
+		  <xsd:complexType name="packagerType">
+		    <xsd:sequence>
+		   			<xsd:group ref="packagerGroup" maxOccurs="unbounded"/>		   				   					   			   
+		    </xsd:sequence>	    
+		    
+		    <xsd:attribute name="packageName" 			type="xsd:string" use="required" />
+		    <xsd:attribute name="outputDir" 			type="xsd:string" use="required" />
+		    <xsd:attribute name="archiveName" 			type="xsd:string" use="required" />
+		    <xsd:attribute name="packageDescription" 	type="xsd:string" />
+		    <xsd:attribute name="option" 				type="xsd:string" />
+		  </xsd:complexType>	
+		  			
+		  				  <!-- TASKS -->		  
+						  <xsd:group name="packagerTasksGroup">
+								  <xsd:choice>
+								    	  <xsd:element name="include" 		type="anyExtensionStateType" 	/>
+								    	  <xsd:element name="exclude" 		type="anyExtensionStateType" 	/>						  
+								  </xsd:choice>				  
+						  </xsd:group>	
+						    
+						  <xsd:complexType name="packagerTasksType">
+						    <xsd:sequence>
+						   			<xsd:group ref="packagerTasksGroup" maxOccurs="unbounded"/>		   				   					   			   
+						    </xsd:sequence>	    
+						    
+						    <xsd:attribute name="dir"	type="xsd:string" use="required" />
+						  </xsd:complexType>
+	  
+	  	  <!-- LDIF -->	  
+	  	  <xsd:complexType name="ldifType">
+		    <xsd:attribute name="file" 		type="xsd:string" use="required"	/>
+		    <xsd:attribute name="option" 	type="xsd:string" />
+		  </xsd:complexType> 	
+	  
+		  <!-- SQL LOAD -->	  
+	  	  <xsd:complexType name="sqlloadType">
+		    <xsd:attribute name="sqlpath" 		type="xsd:string" use="required"	/>
+		    <xsd:attribute name="option" 		type="xsd:string" />
+		    <xsd:attribute name="force" 		type="xsd:string" />
+		  </xsd:complexType>  	
+  	
+  		  <!-- ALTER_PROPERTIES -->	
+		  <xsd:complexType name="alterPropertiesType">
+		    <xsd:attribute name="property" 	type="xsd:string" />
+		    <xsd:attribute name="value" 	type="xsd:string" />
+		    <xsd:attribute name="action" 	type="xsd:string" />
+		    <xsd:attribute name="dest" 		type="xsd:string" />
+		    <xsd:attribute name="desc" 		type="xsd:string" />
+		    <xsd:attribute name="file" 		type="xsd:string" />
+		    <xsd:attribute name="option" 	type="xsd:string" />
+		    <xsd:attribute name="force" 	type="xsd:string" />
+		  </xsd:complexType>
+  
+  		  <!-- PTCPATCH -->
+		  <xsd:complexType name="ptcPatchType">
+		    <xsd:attribute name="file" 		type="xsd:string" use="required"/>
+		    <xsd:attribute name="option" 	type="xsd:string" />
+		  </xsd:complexType>
+  
+  		  <!-- XCONF -->	
+		  <xsd:complexType name="xconfType">
+		    <xsd:attribute name="mode" 		type="xsd:string" />
+		    <xsd:attribute name="property" 	type="xsd:string" />
+		    <xsd:attribute name="value" 	type="xsd:string" />
+		    <xsd:attribute name="target" 	type="xsd:string" />
+		    <xsd:attribute name="file" 		type="xsd:string" />
+		    <xsd:attribute name="option" 	type="xsd:string" />
+		    <xsd:attribute name="force" 	type="xsd:string" />
+		  </xsd:complexType>
+  
+  		  <!-- COPY -->
+  		  <xsd:group name="copyGroup">
+			  <xsd:choice>
+			    	  <xsd:element name="filterset" type="anyExtensionStateType" minOccurs="0" maxOccurs="unbounded"/>
+		      		  <xsd:element name="fileset" 	type="anyExtensionStateType" minOccurs="0" maxOccurs="unbounded"/>
+			  </xsd:choice>
+		  </xsd:group>
+  		  
+		  <xsd:complexType name="copyType">
+		    <xsd:sequence>
+		    	<xsd:group ref="copyGroup" maxOccurs="unbounded"/>
+		    </xsd:sequence>
+		    <xsd:attribute name="file" 						type="xsd:string" 	/>
+		    <xsd:attribute name="tofile" 					type="xsd:string" 	/>
+		    <xsd:attribute name="todir" 					type="xsd:string" 	/>
+		    <xsd:attribute name="includes"					type="xsd:string" 	/>
+		    <xsd:attribute name="excludes"					type="xsd:string" 	/>
+		    <xsd:attribute name="desc" 						type="xsd:string" 	/>
+		    <xsd:attribute name="overwrite" 				type="xsd:boolean" 	/>
+		    <xsd:attribute name="force" 					type="xsd:boolean" 	/>
+		    <xsd:attribute name="filtering" 				type="xsd:boolean" 	/>
+		    <xsd:attribute name="flatten" 					type="xsd:boolean" 	/>
+		    <xsd:attribute name="includeEmptyDirs"	 		type="xsd:boolean" 	/>
+		    <xsd:attribute name="failonerror" 				type="xsd:boolean" 	/>
+		    <xsd:attribute name="verbose" 					type="xsd:boolean" 	/>
+		    <xsd:attribute name="encoding" 					type="xsd:string" 	/>
+		    <xsd:attribute name="outputencoding"	 		type="xsd:string" 	/>
+		    <xsd:attribute name="enablemultiplemappings"	type="xsd:boolean" 	/>
+		    <xsd:attribute name="granularity"		 		type="xsd:boolean" 	/>
+		    <xsd:attribute name="option" 					type="xsd:string"   />
+		  </xsd:complexType>
+  
+		  <xsd:complexType name="anyExtensionStateType">
+			<xsd:sequence>
+				<xsd:any processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+			<xsd:anyAttribute processContents="lax" />		
+		  </xsd:complexType>
+  		  
+  		  <!-- LOADTYPE -->	
+		  <xsd:complexType name="loadType">
+		    <xsd:attribute name="file" 						type="xsd:string" use="required"	/>
+		    <xsd:attribute name="password" 					type="xsd:string" />
+		    <xsd:attribute name="desc"						type="xsd:string" />
+		    <xsd:attribute name="containerPath" 			type="xsd:string" />
+		    <xsd:attribute name="username" 					type="xsd:string" />
+		    <xsd:attribute name="mapFile" 					type="xsd:string" />
+		    <xsd:attribute name="encoding" 					type="xsd:string" />
+		    <xsd:attribute name="del" 						type="xsd:string" />
+		    <xsd:attribute name="presspace" 				type="xsd:string" />
+		    <xsd:attribute name="overwriteValueConflicts" 	type="xsd:boolean" />
+		    <xsd:attribute name="skipUnresolvedConflicts"	type="xsd:boolean" />
+		    <xsd:attribute name="force" 					type="xsd:string" />
+			<xsd:attribute name="option" 					type="xsd:string" />
+		  </xsd:complexType>
+		  
+		  <!-- LOADBACTYPE -->	
+		  <xsd:complexType name="loadBACType">
+		    <xsd:attribute name="file" 						type="xsd:string" use="required"	/>
+		    <xsd:attribute name="type"						type="xsd:string" use="required" />
+		    <xsd:attribute name="password" 					type="xsd:string" />
+		    <xsd:attribute name="username" 					type="xsd:string" />
+		    <xsd:attribute name="desc"						type="xsd:string" />
+		    <xsd:attribute name="mapFile" 					type="xsd:string" />
+		    <xsd:attribute name="option" 					type="xsd:string" />
+		    <xsd:attribute name="force" 					type="xsd:string" />
+		    <xsd:attribute name="defaultResolution" 		type="xsd:string" />
+		    <xsd:attribute name="reuseResolution" 			type="xsd:string" />
+		    <xsd:attribute name="conflictFile" 				type="xsd:string" />
+		    <xsd:attribute name="saveResolution"			type="xsd:string" />
+		  </xsd:complexType>
+		  
+		  <!-- LOADFLEXTYPE -->	
+		  <xsd:complexType name="loadFlexType">
+		    <xsd:attribute name="file" 						type="xsd:string" use="required"	/>
+		    <xsd:attribute name="mapFile" 					type="xsd:string" />
+		    <xsd:attribute name="username" 					type="xsd:string" />
+		    <xsd:attribute name="password" 					type="xsd:string" />
+		    <xsd:attribute name="delimiter"					type="xsd:string" />
+		    <xsd:attribute name="desc"						type="xsd:string" />
+		    <xsd:attribute name="option"					type="xsd:string" />
+		  </xsd:complexType>
+		  
+		  <!-- LOADTYPETYPE -->
+		  <xsd:complexType name="loadTypeType">
+		    	<xsd:attribute name="type" 			type="xsd:string" use="required"/>
+		    	<xsd:attribute name="position"		type="xsd:string" />
+		    	<xsd:attribute name="ootb" 			type="xsd:string" />
+			  	<xsd:attribute name="tag" 			type="xsd:string" />
+			  	<xsd:attribute name="handler" 		type="xsd:string" />
+			  	<xsd:attribute name="option" 		type="xsd:string" />
+		  </xsd:complexType>
+
+  		  <!-- PROPERTYTYPE -->	
+		  <xsd:complexType name="propertyType">
+		    <xsd:attribute name="option" 		type="xsd:string" />
+		    <xsd:attribute name="desc"			type="xsd:string" />
+		    <xsd:attribute name="file" 			type="xsd:string" />
+		    <xsd:attribute name="name" 			type="xsd:string" />
+		    <xsd:attribute name="classname" 	type="xsd:string" />
+		    <xsd:attribute name="method" 		type="xsd:string" />
+		    <xsd:attribute name="filterset" 	type="xsd:string" />
+		  </xsd:complexType>
+  			
+  		  <!-- VARIABLE -->	
+		  <xsd:complexType name="variableType">
+		    <xsd:attribute name="type" 				type="xsd:string" 	use="required"	/>
+		    <xsd:attribute name="caption" 			type="xsd:string" 	use="required"	/>
+		    <xsd:attribute name="name" 				type="xsd:string" 	use="required"	/>
+		    <xsd:attribute name="default" 			type="xsd:string" 	/>
+		    <xsd:attribute name="winDefault" 		type="xsd:string" 	/>
+		    <xsd:attribute name="unixDefault" 		type="xsd:string" 	/>
+		    <xsd:attribute name="acceptDefault" 	type="xsd:boolean" 	/>
+		    <xsd:attribute name="option" 			type="xsd:string" 	/>
+		  </xsd:complexType>
+		  
+		  <!-- XMLTASK -->		  
+		  <xsd:group name="xmlTaskGroup">
+				  <xsd:choice>
+				    	  <xsd:element name="insert" 		type="insertType" 	/>
+				    	  <xsd:element name="replace" 		type="replaceType" 	/>
+				    	  <xsd:element name="remove" 		type="removeType" 	/>						  
+				  </xsd:choice>				  
+		  </xsd:group>	
+		  
+		  <!-- <xsd:any processContents="lax" minOccurs="0" maxOccurs="unbounded"/> -->
+  
+		  <xsd:complexType name="xmltaskType">
+		    <xsd:sequence>
+		   			<xsd:group ref="xmlTaskGroup" maxOccurs="unbounded"/>		   				   					   			   
+		    </xsd:sequence>	    
+		    
+		    <xsd:attribute name="destDir" 		type="xsd:string" />
+		    <xsd:attribute name="destFile" 		type="xsd:string" />
+		    <xsd:attribute name="option" 		type="xsd:string" />
+		    <xsd:attribute name="force" 		type="xsd:string" />
+		  </xsd:complexType>
+  			  
+  		
+			  <xsd:complexType name="insertType">
+			  	<xsd:simpleContent>
+			    	<xsd:extension base="xsd:string">      		
+				    	<xsd:attribute name="path" 				type="xsd:string"	use="required"	/>
+				    	<xsd:attribute name="position"			type="xsd:string"	/>
+					    <xsd:attribute name="buffer" 			type="xsd:string" 	/>
+					    <xsd:attribute name="file" 				type="xsd:string" 	/>
+					    <xsd:attribute name="xml" 				type="xsd:string" 	/>
+					    <xsd:attribute name="expandProperties" 	type="xsd:string" 	/>
+					    <xsd:attribute name="if"	 			type="xsd:string" 	/>	
+					    <xsd:attribute name="unless" 			type="xsd:string" 	/>
+			    	</xsd:extension>
+			  	</xsd:simpleContent>
+			  </xsd:complexType>
+			  
+			  <xsd:complexType name="replaceType">
+			  	<xsd:simpleContent>
+			    	<xsd:extension base="xsd:string">      		
+				    	<xsd:attribute name="path" 				type="xsd:string"	use="required"	/>
+					    <xsd:attribute name="withText" 			type="xsd:string" 	/>
+					    <xsd:attribute name="withXML" 			type="xsd:string" 	/>
+					    <xsd:attribute name="withFile" 			type="xsd:string" 	/>
+					    <xsd:attribute name="withBuffer" 		type="xsd:string" 	/>
+					    <xsd:attribute name="expandProperties"	type="xsd:string" 	/>	
+					    <xsd:attribute name="if"	 			type="xsd:string" 	/>
+					    <xsd:attribute name="unless" 			type="xsd:string" 	/>
+			    	</xsd:extension>
+			  	</xsd:simpleContent>
+			  </xsd:complexType>
+			  
+			  <xsd:complexType name="removeType">
+			  	<xsd:simpleContent>
+			    	<xsd:extension base="xsd:string">      		
+				    	<xsd:attribute name="path" 				type="xsd:string"	use="required"	/>
+					    <xsd:attribute name="if"	 			type="xsd:string" 	/>
+					    <xsd:attribute name="unless" 			type="xsd:string" 	/>
+			    	</xsd:extension>
+			  	</xsd:simpleContent>
+			  </xsd:complexType>			  
+			 
+  <!-- INSTALL -->
+  
+  <!-- DEPENDENCIES -->
+	  <xsd:complexType name="dependenciesType">
+	    <xsd:sequence>
+	      <xsd:element name="dependency" type="dependencyType" minOccurs="1" maxOccurs="unbounded"/>
+	    </xsd:sequence>
+	  </xsd:complexType>
+  
+		  <xsd:complexType name="dependencyType">
+		    <xsd:attribute name="org" 	type="xsd:string" default="PTC"					/>
+		    <xsd:attribute name="name" 	type="xsd:string" default="SampleProject"		/>
+		    <xsd:attribute name="rev" 	type="xsd:string" default="latest.integration"	/>
+		  </xsd:complexType>
+  <!-- DEPENDENCIES -->
+    
+  <!-- WINDCHILL -->
+	  <xsd:complexType name="windchillType">
+	    <xsd:attribute name="release" 			type="xsd:decimal" 	default="10.0"	/>
+	    <xsd:attribute name="dateCode" 			type="xsd:string"	default="F000"	/>
+	    <xsd:attribute name="installSequence" 	type="xsd:int"		/>
+	  </xsd:complexType>
+  <!-- WINDCHILL -->
+  
+  <!-- VERSION -->
+	  <xsd:complexType name="versionType">
+	    <xsd:attribute name="major" 	type="xsd:int"	default="1"	/>
+	    <xsd:attribute name="minor" 	type="xsd:int"	default="0"	/>
+	    <xsd:attribute name="point" 	type="xsd:int"	default="0"	/>
+        <xsd:attribute name="trivial" 	type="xsd:int"	default="0"	/>
+        <xsd:attribute name="buildCode" type="xsd:int"	/>
+	  </xsd:complexType>
+  <!-- VERSION -->
+  
+</xsd:schema>

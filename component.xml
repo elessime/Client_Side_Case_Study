@@ -1,0 +1,92 @@
+<component name="Client_Side_Project" organisation="PTC" description="Client_Side_Project implements the processing process." homepage="https://ssp.ptc.com/wiki/display/bif/BIF+Home" COTS="false"
+xmlns="http://ssp.ptc.com"	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"	xsi:schemaLocation="http://ssp.ptc.com component.xsd">
+	
+	<version major="1" minor="0" point="0" trivial="0" buildCode="0"/>
+	<windchill release="10.0" dateCode="C010" installSequence="0"/>
+
+	<!-- Component Dependencies Example -->
+	<!--<dependencies>
+		<dependency org="PTC" name="TestModule" rev="latest.integration"/>
+	</dependencies> --> 
+
+	<!-- Install Example -->
+	<!-- 
+	<install>  
+	-->
+		<!-- XMLTask Example -->  				
+		<!-- <xmltask destDir="${wthome}/codebase/config/actions" destFile="custom-actions.xml">
+			<insert path="listofactions" position="under">
+				<![CDATA[<objecttype name="custom" class="java.lang.Object" >
+					<action name="exercise1">
+						 <label>Exercise 1</label>
+						 <tooltip>Exercise 1</tooltip>
+						 <component name="exercise1" windowType="page" />
+					</action>
+				</objecttype>]]>
+			</insert>
+		</xmltask> -->
+		
+		<!-- Load Example -->
+		<!--<load file="ext/training/common/Library/Libraries"  desc="Loading Training Library"   containerPath="/wt.inf.container.OrgContainer=GlobalService" username="TrainingUser" password="tuser" /> -->		
+		
+		<!-- Alter Properties Example -->
+		<!-- <alterProperties property="object.create.icon" value="BIFUpdated" action="Append" dest="codebase/action.properties" desc="Test update"/> -->
+
+		<!-- Xconf Example -->
+		<!-- <xconf mode="reset" property="wt.manager.cmd.ServerManager"/> -->
+
+		<!-- PTC Patch Example -->
+		<!-- <ptcPatch file="tempPatches/9.1-M050_TP27" /> -->
+
+		<!-- Copy with filtersets -->
+		<!-- <copy todir="db"  includes="**"  desc="Copying Training SQL Scripts" >
+			<filterset>
+				<filter token="tblspcIndx"   value="${tblspcIndx}"/>
+				<filter token="tblspcBlbs"   value="${tblspcBlbs}"/>
+			</filterset>
+		</copy> -->
+
+		<!-- User Propmpt Example -->
+		<!-- <variable type="text" label="orgUsername:" caption="Please specify the TRAINING org admin Username" name="trainingOrgId" default="TrainingUser"/> -->
+		
+		<!-- SQL Load Example -->
+		<!-- <sqlload sqlpath="ext/example/sql"/> -->
+
+	<!-- 
+	</install> 
+	-->
+	 
+	<!-- Extension Example -->
+	<!-- 
+	<extension> 
+        <preExecute>
+        	<java classname="bifExt.JavaExtension">
+        		<arg value="preExecute" />
+                <arg value="postExecute" />
+                <arg value="preDeploy" /> 
+                <classpath value="abc" />
+        		<jvmarg></jvmarg>        		        		             
+            </java>      
+            <ant antfile="extension/newfeature.xml"/> 
+            <ant antfile="extension/feature.xml"/>             
+        </preExecute> 
+        <preDeploy> 
+            <java classname="bifExt.JavaExtension"/> 
+            <ant antfile="extension/feature.xml"/> 
+            
+            <ant antfile="subproject/subbuild.xml" target="compile"/>
+
+			<ant antfile="dasd/build.xml" target="_blank"/>
+			<ant antfile="file/file.xml" />			
+			<ant antfile="subproject/property_based_subbuild.xml">
+			  <property name="param1" value="version 1.x"/>
+			  <property file="config/subproject/default.properties"/>
+			</ant>
+			
+			<ant inheritAll="false" antfile="subproject/subbuild.xml">
+			  <property name="output.type" value="html"/>
+			</ant>
+        </preDeploy>         
+    </extension>
+	 -->
+</component>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE listofactions SYSTEM "actions.dtd">
+<listofactions>
+
+    <objecttype name="academy" class="wt.fc.Persistable" resourceBundle="academy.resource.AcademyResource">
+
+    <action name="">
+        <command url="" windowType="page" />
+        <includeFilter name="" />
+    </action>
+
+
+    </objecttype>
+
+</listofactions>

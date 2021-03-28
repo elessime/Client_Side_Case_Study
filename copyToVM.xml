@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="CopyToVmware" default="execAll" basedir=".">
+
+    <property name="wtHome" value="E:\ptc\Windchill_11.2\Windchill" />
+
+    <target name="copyClassToVM">
+        <copy todir="${wtHome}\codebase" verbose="true">
+            <fileset dir="build" includes="**/*.class" />
+        </copy>
+    </target>
+
+    <target name="copyCodebase">
+        <copy todir="${wtHome}\codebase" verbose="true">
+            <fileset dir="codebase" />
+        </copy>
+    </target>
+
+    <target name="copyDB">
+        <copy todir="${wtHome}\db" verbose="true">
+            <fileset dir="db" />
+        </copy>
+    </target>
+
+    <target name="copyLoadFiles">
+        <copy todir="${wtHome}\loadFiles" verbose="true">
+            <fileset dir="loadFiles" />
+        </copy>
+    </target>
+
+    <target name="copyLoadXMLFiles">
+        <copy todir="${wtHome}\loadXMLFiles" verbose="true">
+            <fileset dir="loadXMLFiles" />
+        </copy>
+    </target>
+
+    <target name="copyExtension">
+        <copy todir="${wtHome}\extensions" verbose="true">
+            <fileset dir="extensions" />
+        </copy>
+    </target>
+
+    <target name="copyWTCustom">
+        <copy todir="${wtHome}\wtCustom" verbose="true">
+            <fileset dir="wtCustom" />
+        </copy>
+        <copy todir="${wtHome}\codebase" verbose="true">
+            <fileset dir="wtCustom" />
+        </copy>
+    </target>
+
+    <target name="copySiteMod">
+        <copy todir="${wtHome}/wtSafeArea/siteMod" verbose="true">
+            <fileset dir="wtSafeArea/siteMod" />
+        </copy>
+        <copy todir="${wtHome}" verbose="true">
+            <fileset dir="wtSafeArea/siteMod" />
+        </copy>
+    </target>
+
+    <target name="copyConf">
+        <copy todir="${wtHome}/conf" verbose="true">
+            <fileset dir="conf" />
+        </copy>
+    </target>
+
+    <target name="copyBin">
+        <copy todir="${wtHome}/bin" verbose="true">
+            <fileset dir="bin" />
+        </copy>
+    </target>
+
+    <target name="copySecurityLabels">
+        <copy todir="${wtHome}/conf" verbose="true">
+            <file file="wtSafeArea/siteMod/conf/exposedSecurityLabelObjects.xml" />
+            <file file="wtSafeArea/siteMod/conf/securityLabelsConfiguration.xml" />
+        </copy>
+        <copy todir="${wtHome}/codebase" verbose="true">
+            <file file="wtSafeArea/siteMod/codebase/disable_LogicalAttributesSite.xml" />
+            <file file="wtSafeArea/siteMod/codebase/LogicalAttributesSite.xml" />
+        </copy>
+    </target>
+
+    <target name="execAll">
+        <antcall target="copyClassToVM" />
+        <antcall target="copyBin" />
+        <antcall target="copyCodebase" />
+        <antcall target="copyDB" />
+        <antcall target="copyConf" />
+        <antcall target="copyLoadFiles" />
+        <antcall target="copyLoadXMLFiles" />
+        <antcall target="copyWTCustom" />
+        <antcall target="copySiteMod" />
+        <!--        <antcall target="copySecurityLabels" />-->
+        <antcall target="copyExtension" />
+    </target>
+
+</project>
